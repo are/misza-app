@@ -42,7 +42,7 @@ export const Clock = ({ time }) => {
                 </Typography>
             </Grid>
             <Grid item>
-                <Typography variant="h2">{format(time, 'HH:m')}</Typography>
+                <Typography variant="h2">{format(time, 'HH:mm')}</Typography>
             </Grid>
         </Grid>
     )

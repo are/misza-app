@@ -27,7 +27,8 @@ const useStyles = makeStyles(theme => ({
     },
     content: {
         width: '100%',
-        height: '100%'
+        height: '100%',
+        overflow: 'hidden'
     },
     enter: {},
     enterActive: {
