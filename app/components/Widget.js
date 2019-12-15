@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 
-import { FullScreenContainer } from '../contexts/fullscreen'
+import { FullscreenContainer } from '../contexts/fullscreen'
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
         flexShrink: 0,
         height: 300,
         width: 300,
-        transition: 'all 0.4s ease-in-out'
+        transition: 'all 0.2s ease-in-out'
     },
     containerFake: {
         display: 'block',
@@ -51,8 +51,9 @@ const useStyles = makeStyles(theme => ({
     exitDone: {}
 }))
 
-export const Widget = ({ children, fullScreen }) => {
-    const { disable, enable } = FullScreenContainer.useContainer()
+export const Widget = ({ children, fullScreen, ...rest }) => {
+    const cls = useStyles()
+    const { setStage } = FullscreenContainer.useContainer()
     const [{ left, top, shouldApply, shouldFake }, setPosition] = useState({
         left: 0,
         top: 0,
@@ -60,18 +61,11 @@ export const Widget = ({ children, fullScreen }) => {
         shouldFake: false
     })
     const ref = useRef()
-    const cls = useStyles()
-
-    useEffect(() => {
-        if (fullScreen) {
-            enable()
-        } else {
-            disable()
-        }
-    }, [fullScreen])
 
     const calculateEnterPosition = useCallback(node => {
         const rect = node.getBoundingClientRect()
+
+        setStage('enter')
 
         setPosition({
             left: rect.x - 4,
@@ -101,13 +95,15 @@ export const Widget = ({ children, fullScreen }) => {
             shouldApply: false,
             shouldFake: false
         }))
+
+        setStage('end')
     }, [])
 
     return (
         <>
             <CSSTransition
                 in={fullScreen}
-                timeout={400}
+                timeout={200}
                 classNames={cls}
                 onEnter={calculateEnterPosition}
                 onEntering={finishEnterPosition}
@@ -120,7 +116,9 @@ export const Widget = ({ children, fullScreen }) => {
                     ref={ref}
                     style={shouldApply ? { left, top, zIndex: 10 } : {}}
                 >
-                    <Paper className={cls.content}>{children}</Paper>
+                    <Paper className={cls.content} {...rest}>
+                        {children}
+                    </Paper>
                 </Grid>
             </CSSTransition>
             {shouldFake && <div className={cls.containerFake} />}

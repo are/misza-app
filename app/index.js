@@ -7,14 +7,14 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import { theme } from './theme'
 import { App } from './App'
 
-import { FullScreenContainer } from './contexts/fullscreen'
+import { FullscreenContainer } from './contexts/fullscreen'
 
 render(
-    <FullScreenContainer.Provider>
+    <FullscreenContainer.Provider>
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <App />
         </ThemeProvider>
-    </FullScreenContainer.Provider>,
+    </FullscreenContainer.Provider>,
     document.getElementById('root')
 )

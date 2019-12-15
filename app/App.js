@@ -2,17 +2,12 @@ import React from 'react'
 
 import { Container } from './components'
 
-import { ClockWidget } from './widgets/Clock'
+import { ClockApp } from './widgets/Clock'
 
 export const App = () => {
     return (
         <Container>
-            <ClockWidget />
-            <ClockWidget />
-            <ClockWidget />
-            <ClockWidget />
-            <ClockWidget />
-            <ClockWidget />
+            <ClockApp />
         </Container>
     )
 }

@@ -1,19 +1,30 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState, useCallback } from 'react'
 import { createContainer } from 'unstated-next'
 
-export const FullScreenContainer = createContainer(function() {
+export const FullscreenContainer = createContainer(function() {
+    const [fsId, setFsId] = useState(null)
+    const [stage, setStage] = useState(null)
     const bodyRef = useRef()
 
-    useEffect(() => {
-        bodyRef.current = document.body
-    }, [])
-
-    const disable = () => {
+    const disable = useCallback(() => {
         document.body.classList.remove('fullscreen')
-    }
-    const enable = () => {
-        document.body.classList.add('fullscreen')
-    }
+        setFsId(null)
+    }, [setFsId])
 
-    return { disable, enable }
+    const enable = useCallback(
+        id => {
+            document.body.classList.add('fullscreen')
+            setFsId(id)
+        },
+        [setFsId]
+    )
+
+    const isFullscreen = useCallback(
+        id => {
+            return id === fsId
+        },
+        [fsId]
+    )
+
+    return { disable, enable, isFullscreen, stage, setStage }
 })
