@@ -1,0 +1,33 @@
+{
+  "name": "misza-app",
+  "version": "0.1.0",
+  "description": "Home Assistant for RPi4 with a touch screen",
+  "main": "server/index.js",
+  "scripts": {
+    "build": "parcel build app/index.html",
+    "dev": "parcel app/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/are/misza-app.git"
+  },
+  "author": "are <me@iama.re>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/are/misza-app/issues"
+  },
+  "homepage": "https://github.com/are/misza-app#readme",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.7.2",
+    "@material-ui/icons": "^4.5.1",
+    "@reach/router": "^1.2.1",
+    "faye": "^1.2.4",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-transition-group": "^4.3.0",
+    "unstated-next": "^1.1.0"
+  }
+}
