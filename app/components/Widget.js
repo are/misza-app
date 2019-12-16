@@ -36,8 +36,8 @@ const useStyles = makeStyles(theme => ({
         margin: theme.spacing(0),
         top: 0,
         left: 0,
-        width: 800,
-        height: 480,
+        width: 480,
+        height: 800,
         zIndex: 10
     },
     enterDone: {
@@ -45,8 +45,8 @@ const useStyles = makeStyles(theme => ({
         margin: theme.spacing(0),
         top: 0,
         left: 0,
-        width: 800,
-        height: 480,
+        width: 480,
+        height: 800,
         zIndex: 10
     },
     exit: { top: 0, left: 0, position: 'fixed' },

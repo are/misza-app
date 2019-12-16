@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
     },
     tabs: {
         position: 'absolute',
-        bottom: 0,
+        top: 0,
         zIndex: 100,
         width: '100%'
     }
@@ -70,6 +70,7 @@ export const ClockApp = ({ children, isFullscreen }) => {
                 className={cls.container}
                 slideClassName={cls.container}
                 containerStyle={{ height: '100%' }}
+                disabled={!isFullscreen}
             >
                 <Grid
                     container

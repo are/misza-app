@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => ({
         display: 'inline-flex',
         overflowX: 'scroll',
         overflowY: 'hidden',
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         flexWrap: 'nowrap',
