@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     },
     bottom: {
         position: 'absolute',
-        bottom: theme.spacing(2),
+        height: '100%',
         display: 'inline-flex',
         overflowX: 'hidden',
         overflowY: 'hidden',
@@ -176,7 +176,7 @@ export const WeatherApp = ({ children, isFullscreen, fullscreen }) => {
                                                                       ? 'primary'
                                                                       : 'secondary'
                                                               }
-                                                              variant="body"
+                                                              variant="caption"
                                                           >
                                                               {weather.dt_txt
                                                                   ? format(
@@ -218,7 +218,7 @@ export const WeatherApp = ({ children, isFullscreen, fullscreen }) => {
                                                                       ? 'primary'
                                                                       : 'secondary'
                                                               }
-                                                              variant="body"
+                                                              variant="caption"
                                                           >
                                                               {weather.main.temp.toFixed(
                                                                   0

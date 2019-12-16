@@ -4,11 +4,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import ButtonBase from '@material-ui/core/ButtonBase'
 import Fab from '@material-ui/core/Fab'
 import Zoom from '@material-ui/core/Zoom'
-import Collapse from '@material-ui/core/Collapse'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
+import { CSSTransition } from 'react-transition-group'
 
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 
@@ -20,9 +18,11 @@ import { WeatherApp } from '~/widgets/Weather'
 const useStyles = makeStyles(theme => ({
     menuButton: {
         position: 'absolute',
-        top: theme.spacing(1),
-        left: theme.spacing(1),
-        zIndex: 100000
+        bottom: 0,
+        left: '50%',
+        zIndex: 100000,
+        transform: 'translate(-50%, 25%)',
+        height: 0
     },
     content: {
         width: '100%',
@@ -31,19 +31,6 @@ const useStyles = makeStyles(theme => ({
         position: 'relative'
     }
 }))
-
-// <Fab
-//                     style={{
-//                         position: 'absolute',
-//                         top: 16,
-//                         left: 16,
-//                         zIndex: 1000000
-//                     }}
-//                     color="primary"
-//                     onClick={() => disable()}
-//                 >
-//                     <ArrowBackIcon />
-//                 </Fab>
 
 const SimpleWidgetWrapper = ({
     name,
