@@ -1,30 +1,34 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
 import { createContainer } from 'unstated-next'
 
-export const FullscreenContainer = createContainer(function() {
+export const FullscreenContainer = createContainer(function(...args) {
     const [fsId, setFsId] = useState(null)
-    const [stage, setStage] = useState(null)
     const bodyRef = useRef()
+
+    useEffect(() => {
+        function onPopState(event) {
+            event.preventDefault()
+
+            setFsId(null)
+        }
+
+        window.addEventListener('popstate', onPopState)
+
+        return () => {
+            window.removeEventListener('popstate', onPopState)
+        }
+    }, [])
 
     const disable = useCallback(() => {
         document.body.classList.remove('fullscreen')
         setFsId(null)
-    }, [setFsId])
+    }, [])
 
-    const enable = useCallback(
-        id => {
-            document.body.classList.add('fullscreen')
-            setFsId(id)
-        },
-        [setFsId]
-    )
+    const enable = useCallback(id => {
+        document.body.classList.add('fullscreen')
+        setFsId(id)
+        window.history.pushState({ widget: id }, `${id} widget`)
+    }, [])
 
-    const isFullscreen = useCallback(
-        id => {
-            return id === fsId
-        },
-        [fsId]
-    )
-
-    return { disable, enable, isFullscreen, stage, setStage }
+    return { disable, enable, fsId }
 })

@@ -3,3 +3,9 @@ node_modules
 # parcel files
 dist
 .cache
+
+# macos
+.DS_Store
+
+# env
+.env

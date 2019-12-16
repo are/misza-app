@@ -33,18 +33,20 @@ const useStyles = makeStyles(theme => ({
     enter: {},
     enterActive: {
         position: 'fixed',
+        margin: theme.spacing(0),
         top: 0,
         left: 0,
-        width: 800 - theme.spacing(1),
-        height: 480 - theme.spacing(1),
+        width: 800,
+        height: 480,
         zIndex: 10
     },
     enterDone: {
         position: 'fixed',
+        margin: theme.spacing(0),
         top: 0,
         left: 0,
-        width: 800 - theme.spacing(1),
-        height: 480 - theme.spacing(1),
+        width: 800,
+        height: 480,
         zIndex: 10
     },
     exit: { top: 0, left: 0, position: 'fixed' },
@@ -54,7 +56,6 @@ const useStyles = makeStyles(theme => ({
 
 export const Widget = ({ children, fullScreen, ...rest }) => {
     const cls = useStyles()
-    const { setStage } = FullscreenContainer.useContainer()
     const [{ left, top, shouldApply, shouldFake }, setPosition] = useState({
         left: 0,
         top: 0,
@@ -65,8 +66,6 @@ export const Widget = ({ children, fullScreen, ...rest }) => {
 
     const calculateEnterPosition = useCallback(node => {
         const rect = node.getBoundingClientRect()
-
-        setStage('enter')
 
         setPosition({
             left: rect.x - 4,
@@ -96,8 +95,6 @@ export const Widget = ({ children, fullScreen, ...rest }) => {
             shouldApply: false,
             shouldFake: false
         }))
-
-        setStage('end')
     }, [])
 
     return (
