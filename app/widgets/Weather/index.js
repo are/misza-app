@@ -54,8 +54,8 @@ const useStyles = makeStyles(theme => ({
         overflowX: 'hidden',
         overflowY: 'hidden',
         flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
+        justifyContent: 'space-around',
+        alignItems: 'center',
         flexWrap: 'nowrap'
     },
     bottomEntry: {
@@ -63,17 +63,17 @@ const useStyles = makeStyles(theme => ({
         flexShrink: 0
     },
     tempWrapper: {
+        display: 'block',
         width: '100%',
-        height: '100%',
-        maxHeight: 400,
+        height: 300,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         background: 'rgba(0, 0, 0, 0.3)',
-        transition: 'background 0.5s ease-in-out',
+        transition: 'all 0.2s ease-in-out',
         position: 'absolute',
-        bottom: 0,
+        top: 0,
         overflowY: 'scroll',
         'scrollbar-width': 'none' /* Firefox */,
         '-ms-overflow-style': 'none' /* Internet Explorer 10+ */,
@@ -84,9 +84,12 @@ const useStyles = makeStyles(theme => ({
         }
     },
     enterDone: {
-        background: 'rgba(0, 0, 0, 0.7)'
+        background: 'rgba(0, 0, 0, 0.7)',
+        height: 100
     },
-    exitDone: {}
+    exitDone: {
+        height: 300
+    }
 }))
 
 const isNight = date => {
@@ -126,21 +129,14 @@ export const WeatherApp = ({ children, isFullscreen, fullscreen }) => {
                         timeout={100}
                     >
                         <Paper className={cls.tempWrapper}>
-                            <Grow in={isFullscreen} timeout={200}>
-                                <Typography color="secondary" variant="caption">
-                                    Feels like{' '}
+                            <Grow in={!isFullscreen} timeout={200}>
+                                <Typography variant="h2" className={cls.temp}>
                                     {current !== null
-                                        ? current.main.feels_like.toFixed(0)
+                                        ? current.main.temp.toFixed(0)
                                         : '-'}{' '}
                                     &deg;C
                                 </Typography>
                             </Grow>
-                            <Typography variant="h2" className={cls.temp}>
-                                {current !== null
-                                    ? current.main.temp.toFixed(0)
-                                    : '-'}{' '}
-                                &deg;C
-                            </Typography>
                             <Grow in={isFullscreen} timeout={200}>
                                 <Grid
                                     container
@@ -148,72 +144,91 @@ export const WeatherApp = ({ children, isFullscreen, fullscreen }) => {
                                     className={cls.bottom}
                                 >
                                     {current !== null
-                                        ? forecast.list
-                                              .filter(weather => {
-                                                  const date = new Date(
-                                                      weather.dt_txt
-                                                  )
-                                                  return (
-                                                      (isFuture(date) &&
-                                                          isToday(date)) ||
-                                                      isTomorrow(date)
-                                                  )
-                                              })
-                                              .map(weather => (
-                                                  <Grid item key={weather.dt}>
-                                                      <Grid
-                                                          container
-                                                          direction="column"
-                                                          alignItems="center"
-                                                          className={
-                                                              cls.bottomEntry
-                                                          }
-                                                      >
-                                                          <Grid item>
-                                                              <Typography
-                                                                  color="secondary"
-                                                                  variant="caption"
-                                                              >
-                                                                  {format(
-                                                                      new Date(
-                                                                          weather.dt_txt
-                                                                      ),
-                                                                      'H:mm'
+                                        ? [
+                                              current,
+                                              ...forecast.list
+                                                  .filter(weather => {
+                                                      const date = new Date(
+                                                          weather.dt_txt ||
+                                                              weather.dt
+                                                      )
+                                                      return (
+                                                          (isFuture(date) &&
+                                                              isToday(date)) ||
+                                                          isTomorrow(date)
+                                                      )
+                                                  })
+                                                  .slice(0, 6)
+                                          ].map((weather, i) => (
+                                              <Grid item key={weather.dt}>
+                                                  <Grid
+                                                      container
+                                                      direction="column"
+                                                      alignItems="center"
+                                                      className={
+                                                          cls.bottomEntry
+                                                      }
+                                                  >
+                                                      <Grid item>
+                                                          <Typography
+                                                              color={
+                                                                  i === 0
+                                                                      ? 'primary'
+                                                                      : 'secondary'
+                                                              }
+                                                              variant="body"
+                                                          >
+                                                              {weather.dt_txt
+                                                                  ? format(
+                                                                        new Date(
+                                                                            weather.dt_txt
+                                                                        ),
+                                                                        'H:mm'
+                                                                    )
+                                                                  : 'now'}
+                                                          </Typography>
+                                                      </Grid>
+                                                      <Grid item>
+                                                          <Typography
+                                                              color={
+                                                                  i === 0
+                                                                      ? 'primary'
+                                                                      : 'secondary'
+                                                              }
+                                                              variant="h6"
+                                                          >
+                                                              <WeatherIcon
+                                                                  name="owm"
+                                                                  iconId={String(
+                                                                      weather
+                                                                          .weather[0]
+                                                                          .id
                                                                   )}
-                                                              </Typography>
-                                                          </Grid>
-                                                          <Grid item>
-                                                              <Typography
-                                                                  color="secondary"
-                                                                  variant="h6"
-                                                              >
-                                                                  <WeatherIcon
-                                                                      name="owm"
-                                                                      iconId={String(
-                                                                          weather
-                                                                              .weather[0]
-                                                                              .id
-                                                                      )}
-                                                                      night={isNight(
-                                                                          weather.dt_txt
-                                                                      )}
-                                                                  />
-                                                              </Typography>
-                                                          </Grid>
-                                                          <Grid item>
-                                                              <Typography
-                                                                  color="secondary"
-                                                                  variant="caption"
-                                                              >
-                                                                  {weather.main.temp.toFixed(
-                                                                      0
-                                                                  )}{' '}
-                                                                  &deg;C
-                                                              </Typography>
-                                                          </Grid>
+                                                                  night={isNight(
+                                                                      weather.dt_txt ||
+                                                                          weather.dt
+                                                                  )}
+                                                              />
+                                                          </Typography>
+                                                      </Grid>
+                                                      <Grid item>
+                                                          <Typography
+                                                              color={
+                                                                  i === 0
+                                                                      ? 'primary'
+                                                                      : 'secondary'
+                                                              }
+                                                              variant="body"
+                                                          >
+                                                              {weather.main.temp.toFixed(
+                                                                  0
+                                                              )}{' '}
+                                                              &deg;C
+                                                          </Typography>
                                                       </Grid>
                                                   </Grid>
-                                              ))
+                                              </Grid>
+                                          ))
                                         : '-'}
                                 </Grid>
                             </Grow>
